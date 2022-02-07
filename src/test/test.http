@@ -1,0 +1,41 @@
+POST http://localhost:8082/games/1/players/1/move
+Content-Type: application/json
+
+{
+  "posX": 2,
+  "posY": 1
+}
+
+###
+POST http://localhost:8082/games/1/players/1/bomb
+Content-Type: application/json
+
+{
+  "posX": 2,
+  "posY": 1
+}
+
+###
+GET http://localhost:8082/games/2
+Accept: application/json
+
+###
+POST http://localhost:8082/games/
+Content-Type: application/json
+
+{
+  "name": "coucou"
+}
+
+###
+POST http://localhost:8082/games/1
+Content-Type: application/json
+
+{
+"name": "de"
+}
+
+
+###
+PATCH http://localhost:8082/games/1/start
+
