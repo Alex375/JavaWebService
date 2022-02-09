@@ -6,7 +6,7 @@ Content-Type: application/json
   "posY": 1
 }
 
-###
+##
 POST http://localhost:8082/games/1/players/1/bomb
 Content-Type: application/json
 
