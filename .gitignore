@@ -1,0 +1,10 @@
+
+.idea/
+
+*.icloud
+
+.DS_Store
+
+META-INF/maven/io.netty/netty-transport/
+
+META-INF/maven/io.netty/netty-handler/
