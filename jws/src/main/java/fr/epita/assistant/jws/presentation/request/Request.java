@@ -23,7 +23,6 @@ public class Request
     @GET
     public Set<GameResponse> getAllGame()
     {
-        System.out.println(System.getenv("JWS_MAP_PATH"));
         return gameService.getAllGameRepsonse();
     }
 

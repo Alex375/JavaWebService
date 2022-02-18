@@ -8,3 +8,8 @@
 META-INF/maven/io.netty/netty-transport/
 
 META-INF/maven/io.netty/netty-handler/
+
+*.class
+
+jws/target/
+jws/front-end.jar

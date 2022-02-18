@@ -67,10 +67,6 @@ public class GameService
     @Transactional
     public Set<GameResponse> getAllGameRepsonse()
     {
-        System.out.println("Map path -> " + path);
-        System.out.println("Thick duration -> " + playerService.thickDuration);
-        System.out.println("Thick bomb -> " + playerService.delayBomb);
-        System.out.println("Thick move -> " + playerService.delayMovement);
         return GameModel.<GameModel>findAll()
                 .stream()
                 .map(game -> new GameResponse(game.id, game.players.size(), game.state))
@@ -82,7 +78,6 @@ public class GameService
     {
         if (player == null || player.name == null)
             throw new BadRequestException("Bad request (request or name is null)");
-        System.out.println("Path ---->  " + path);
         val model = new GameModel()
                 .withStartTime(new Timestamp(System.currentTimeMillis()))
                 .withState("STARTING")
@@ -158,6 +153,8 @@ public class GameService
         if (gameModel == null)
             throw new NotFoundException("Cannot found game with this id");
         gameModel.state = "RUNNING";
+        if (gameModel.players.size() <= 1)
+            gameModel.state = "FINISHED";
         gameModel.startTime = new Timestamp(System.currentTimeMillis());
         GameModel.persist(gameModel);
         return this.modelToEntity(gameModel);
@@ -177,16 +174,13 @@ public class GameService
                     if (gameModel.players.size() <= 1 || gameModel.players.stream().filter(p -> (p.lives > 0)).count() <= 1){
                         gameModel.state = "FINISHED";
                         GameModel.persist(gameModel);
-                        System.out.println("Game with id " + gameModel.id + " finished");
                     }
                     else
                     {
                         gameModel.players.forEach(
                                 playerModel -> {
-                                    if (playerModel.lastBomb != null && new Timestamp(System.currentTimeMillis()).getTime() - playerModel.lastBomb.getTime() >= playerService.thickDuration * playerService.delayBomb)
+                                    if (playerModel.lastBomb != null && new Timestamp(System.currentTimeMillis()).getTime() - playerModel.lastBomb.getTime() >= (long) playerService.thickDuration * playerService.delayBomb)
                                     {
-                                        System.out.println("Delay -> " + playerService.thickDuration * playerService.delayBomb);
-                                        System.out.println("Game with id " + gameModel.id + " explosing");
                                         GameModel ne = playerService.exploseBomb(gameModel, new Pos(playerModel.bombPosX, playerModel.bombPosY));
                                         playerModel.lastBomb = null;
                                         PlayerModel.persist(playerModel);

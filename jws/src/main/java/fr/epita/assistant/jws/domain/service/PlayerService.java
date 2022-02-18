@@ -1,5 +1,6 @@
 package fr.epita.assistant.jws.domain.service;
 
+import fr.epita.assistant.jws.data.model.GameMapModel;
 import fr.epita.assistant.jws.data.model.GameModel;
 import fr.epita.assistant.jws.data.model.PlayerModel;
 import fr.epita.assistant.jws.domain.entity.GameEntity;
@@ -17,6 +18,7 @@ import javax.ws.rs.WebApplicationException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+
 
 @ApplicationScoped
 public class PlayerService
@@ -88,7 +90,6 @@ public class PlayerService
         if (player.lastBomb != null)
             throw new WebApplicationException("Too many request", 429);
 
-        System.out.println("Bomb posed");
         game.map.map = Map.putMap(game.map.map, pos, 'B');
         player.lastBomb = new Timestamp(System.currentTimeMillis());
         player.bombPosX = pos.posX;
@@ -128,21 +129,19 @@ public class PlayerService
                 }
             }
         }
-        for (PlayerModel player : game.players)
+        for (PlayerModel p : game.players)
         {
-            if (Math.abs(player.posx - pos.posX) <= 1
-                && Math.abs(player.posy - pos.posY) == 0
-                || Math.abs(player.posy - pos.posY) <= 1
-                && Math.abs(player.posx - pos.posX) == 0)
+            if (Math.abs(p.posx - pos.posX) <= 1
+                && Math.abs(p.posy - pos.posY) == 0
+                || Math.abs(p.posy - pos.posY) <= 1
+                && Math.abs(p.posx - pos.posX) == 0)
             {
-                player.lives--;
+                p.lives--;
             }
         }
         game.map.map = map;
-        System.out.println("New map " + game.map.map);
-//        System.out.println("nnn map " + GameMapModel.<GameModel>findById(game.id).map.map);
-//        GameMapModel.persist(game.map);
-//        GameModel.persist(game);
+        GameMapModel.persist(game.map);
+        GameModel.persist(game);
         return game;
     }
 

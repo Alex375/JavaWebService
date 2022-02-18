@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PlayerRequest
 {
-    @Inject GameService gameService;
     @Inject PlayerService playerService;
 
     @POST

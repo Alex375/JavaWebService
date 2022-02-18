@@ -35,20 +35,25 @@ public class Map
 
         int i = 0;
         int number;
-        while (i < src.length()) {
+        while (i < src.length())
+        {
             number = 0;
-            while ((i < src.length()) && Character.isDigit(src.charAt(i))) {
+            while ((i < src.length()) && Character.isDigit(src.charAt(i)))
+            {
                 number = number * 10 + src.charAt(i++) - '0';
             }
             StringBuilder s = new StringBuilder();
-            while ((i < src.length()) && !Character.isDigit(src.charAt(i))) {
-                s.append(src.charAt(i));
+            while ((i < src.length()) && !Character.isDigit(src.charAt(i)))
+            {
+                s.append(src.charAt(i++));
             }
 
-            if (number > 0) {
+            if (number > 0)
+            {
                 sb.append(String.valueOf(s).repeat(number));
             }
-            else {
+            else
+            {
                 sb.append(s);
             }
         }
